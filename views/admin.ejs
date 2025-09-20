@@ -39,7 +39,7 @@
                         { label: 'N (mg/kg)', data: <%= JSON.stringify(item.weeklyData.map(d => d.N)) %>, borderColor: 'green', fill: false },
                         { label: 'P (mg/kg)', data: <%= JSON.stringify(item.weeklyData.map(d => d.P)) %>, borderColor: 'orange', fill: false },
                         { label: 'K (mg/kg)', data: <%= JSON.stringify(item.weeklyData.map(d => d.K)) %>, borderColor: 'purple', fill: false },
-                        { label: 'Niveau d\'eau (%)', data: <%= JSON.stringify(item.weeklyData.map(d => d.level)) %>, borderColor: 'teal', fill: false }
+                        { label: 'Niveau d\'eau (cm)', data: <%= JSON.stringify(item.weeklyData.map(d => d.level)) %>, borderColor: 'teal', fill: false }
                     ]
                 },
                 options: {

@@ -50,8 +50,7 @@
                 <p>Azote (N): <%= item.N %> mg/kg</p>
                 <p>Phosphore (P): <%= item.P %> mg/kg</p>
                 <p>Potassium (K): <%= item.K %> mg/kg</p>
-                <p>Niveau d'eau: <%= item.level %>%</p>
-                <p>Météo simulée: Pluie légère, 25°C</p>
+                <p>Niveau d'eau: <%= item.level %> cm</p>
                 <div class="weekly-data">
                     <h4>Évolution Hebdomadaire</h4>
                     <table>
@@ -62,7 +61,7 @@
                             <th>N (mg/kg)</th>
                             <th>P (mg/kg)</th>
                             <th>K (mg/kg)</th>
-                            <th>Niveau (%)</th>
+                            <th>Niveau (cm)</th>
                         </tr>
                         <% item.weeklyData.forEach(day => { %>
                             <tr>
