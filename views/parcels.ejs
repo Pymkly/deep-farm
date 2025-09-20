@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des Parcelles - Deep Rice</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f0f0f0; }
+        .header { background-color: #2e7d32; color: white; padding: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; }
+        .header h1 { margin: 0 20px 0 0; font-size: 28px; }
+        .header p { margin: 5px 0 0; font-size: 14px; }
+        .nav-buttons { margin-left: auto; }
+        .nav-buttons a { color: white; text-decoration: none; margin: 0 10px; padding: 5px 10px; background-color: #388e3c; border-radius: 5px; }
+        .nav-buttons a:hover { background-color: #66bb6a; }
+        ul { list-style-type: none; padding: 20px; }
+        li { margin: 10px 0; background: white; padding: 10px; border-radius: 5px; }
+        a { color: #1976d2; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .details { display: none; margin-top: 10px; }
+        .map { font-style: italic; color: #666; }
+        .weekly-data { margin-top: 10px; font-size: 12px; }
+        .weekly-data table { width: 100%; border-collapse: collapse; }
+        .weekly-data th, .weekly-data td { border: 1px solid #ddd; padding: 5px; text-align: center; }
+        .weekly-data th { background-color: #e0e0e0; }
+    </style>
+    <script>
+        function showDetails(mac) {
+            const details = document.getElementById(`details-${mac}`);
+            details.style.display = details.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</head>
+<body>
+<div class="header">
+    <h1>Deep Rice</h1>
+    <p>Simulation de Surveillance Agricole en Temps Réel</p>
+    <div class="nav-buttons">
+        <a href="/parcels">Parcelles</a>
+        <a href="/admin">Admin</a>
+    </div>
+</div>
+<ul>
+    <% data.forEach(item => { %>
+        <li>
+            <a href="#" onclick="showDetails('<%= item.mac %>')">
+                <%= item.parcels.join(', ') %> - MAC: <%= item.mac %> (Dernière mise à jour: <%= item.timestamp %>)
+            </a>
+            <p class="map">Coordonnées statiques : Lat 48.8566, Long 2.3522</p>
+            <div id="details-<%= item.mac %>" class="details">
+                <p>Température: <%= item.temperature %>°C</p>
+                <p>Humidité: <%= item.humidity %>%</p>
+                <p>Azote (N): <%= item.N %> mg/kg</p>
+                <p>Phosphore (P): <%= item.P %> mg/kg</p>
+                <p>Potassium (K): <%= item.K %> mg/kg</p>
+                <p>Niveau d'eau: <%= item.level %>%</p>
+                <p>Météo simulée: Pluie légère, 25°C</p>
+                <div class="weekly-data">
+                    <h4>Évolution Hebdomadaire</h4>
+                    <table>
+                        <tr>
+                            <th>Jour</th>
+                            <th>Temp (°C)</th>
+                            <th>Humidité (%)</th>
+                            <th>N (mg/kg)</th>
+                            <th>P (mg/kg)</th>
+                            <th>K (mg/kg)</th>
+                            <th>Niveau (%)</th>
+                        </tr>
+                        <% item.weeklyData.forEach(day => { %>
+                            <tr>
+                                <td><%= day.date %></td>
+                                <td><%= day.temperature %></td>
+                                <td><%= day.humidity %></td>
+                                <td><%= day.N %></td>
+                                <td><%= day.P %></td>
+                                <td><%= day.K %></td>
+                                <td><%= day.level %></td>
+                            </tr>
+                        <% }) %>
+                    </table>
+                </div>
+            </div>
+        </li>
+    <% }) %>
+</ul>
+</body>
+</html>

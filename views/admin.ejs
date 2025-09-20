@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - Statistiques Deep Rice</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f0f0f0; }
+        .header { background-color: #2e7d32; color: white; padding: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; }
+        .header h1 { margin: 0 20px 0 0; font-size: 28px; }
+        .header p { margin: 5px 0 0; font-size: 14px; }
+        .nav-buttons { margin-left: auto; }
+        .nav-buttons a { color: white; text-decoration: none; margin: 0 10px; padding: 5px 10px; background-color: #388e3c; border-radius: 5px; }
+        .nav-buttons a:hover { background-color: #66bb6a; }
+        .chart-container { max-width: 800px; margin: 20px auto; }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Deep Rice</h1>
+    <p>Tableau de Bord Administratif</p>
+    <div class="nav-buttons">
+        <a href="/parcels">Parcelles</a>
+        <a href="/admin">Admin</a>
+    </div>
+</div>
+<% data.forEach((item, index) => { %>
+    <div class="chart-container">
+        <h2><%= item.parcels.join(', ') %> (MAC: <%= item.mac %>)</h2>
+        <canvas id="chart-<%= item.mac %>" width="800" height="200"></canvas>
+        <script>
+            const ctx<%= index %> = document.getElementById('chart-<%= item.mac %>').getContext('2d');
+            new Chart(ctx<%= index %>, {
+                type: 'line',
+                data: {
+                    labels: <%- JSON.stringify(item.weeklyData.map(d => d.date.toString())) %>,
+                    datasets: [
+                        { label: 'Température (°C)', data: <%= JSON.stringify(item.weeklyData.map(d => d.temperature)) %>, borderColor: 'red', fill: false },
+                        { label: 'Humidité (%)', data: <%= JSON.stringify(item.weeklyData.map(d => d.humidity)) %>, borderColor: 'blue', fill: false },
+                        { label: 'N (mg/kg)', data: <%= JSON.stringify(item.weeklyData.map(d => d.N)) %>, borderColor: 'green', fill: false },
+                        { label: 'P (mg/kg)', data: <%= JSON.stringify(item.weeklyData.map(d => d.P)) %>, borderColor: 'orange', fill: false },
+                        { label: 'K (mg/kg)', data: <%= JSON.stringify(item.weeklyData.map(d => d.K)) %>, borderColor: 'purple', fill: false },
+                        { label: 'Niveau d\'eau (%)', data: <%= JSON.stringify(item.weeklyData.map(d => d.level)) %>, borderColor: 'teal', fill: false }
+                    ]
+                },
+                options: {
+                    scales: { y: { beginAtZero: true } },
+                    responsive: true,
+                    plugins: { legend: { position: 'top' } }
+                }
+            });
+        </script>
+    </div>
+<% }) %>
+</body>
+</html>

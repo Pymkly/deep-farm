@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - Statistiques Deep Rice</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f0f0f0; }
+        h1 { color: #2e7d32; text-align: center; }
+        canvas { max-width: 800px; margin: 0 auto; }
+        .header {
+            background-color: #2e7d32;
+            color: white; padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0 20px 0 0;
+            font-size: 28px;
+        }
+        .header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+        .nav-buttons {
+            margin-left: auto;
+        }
+        .nav-buttons a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 5px 10px;
+            background-color: #388e3c;
+            border-radius: 5px;
+        }
+        .nav-buttons a:hover {
+            background-color: #66bb6a;
+        }
+        ul {
+            list-style-type: none;
+            padding: 20px;
+        }
+        li {
+            margin: 10px 0;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        a {
+            color: #1976d2;
+            text-decoration: none;
+            font-size: 21.6px !important;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .details {
+            display: none;
+            margin-top: 10px;
+        }
+        .map {
+            font-style: italic;
+            color: #666;
+        }
+        .titre {
+            font-size: 35px !important;
+
+        }
+        .sous-titre {
+            font-size: 21.6px !important;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1 class="titre">Deep Rice</h1>
+    <p class="sous-titre">Surveillance Agricole en Temps Réel</p>
+    <div class="nav-buttons">
+        <a href="/parcels">Parcelles</a>
+        <a href="/admin">Admin</a>
+    </div>
+</div>
+<h1>Statistiques par Parcelle</h1>
+<canvas id="myChart" width="800" height="400"></canvas>
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const labels = ['Température', 'Humidité', 'N', 'P', 'K', 'Niveau'];
+    const datasets = [];
+    <% data.forEach((item, index) => { %>
+    datasets.push({
+        label: '<%= item.parcels.join(', ') %> (MAC: <%= item.mac %>)',
+        data: [<%= item.temperature %>, <%= item.humidity %>, <%= item.N %>, <%= item.P %>, <%= item.K %>, <%= item.level %>],
+        backgroundColor: `rgba(${Math.floor(255 - 15 * <%= index %>)}, ${Math.floor(125 + 10 * <%= index %>)}, 50, 0.6)`
+    });
+    <% }) %>
+    new Chart(ctx, {
+        type: 'bar',
+        data: { labels, datasets },
+        options: {
+            scales: { y: { beginAtZero: true } },
+            responsive: true,
+            plugins: { legend: { position: 'top' } }
+        }
+    });
+</script>
+</body>
+</html>
