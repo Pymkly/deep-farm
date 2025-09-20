@@ -15,12 +15,12 @@ function generateRandomValue(values) {
 // Générer des données historiques pour une parcelle (7 jours)
 function generateWeeklyData() {
     const values = {
-        temperature: [20, 25, 28, 30, 32],
-        humidity: [50, 60, 70, 80, 90],
-        N: [100, 150, 200, 250, 300],
-        P: [50, 75, 100, 125, 150],
-        K: [80, 120, 160, 200, 240],
-        level: [30, 50, 70, 90, 100]
+        temperature: [24, 25, 26, 27, 25.5],
+        humidity: [47.50, 48.00, 50.20, 49.90, 50.80],
+        N: [64, 65, 29, 30.20, 30.10],
+        P: [90, 91, 33, 82, 74],
+        K: [180, 164, 161, 148, 66],
+        level: [11, 12.2, 11.5, 11.7, 12.1]
     };
     const days = [];
     for (let day = 0; day < 5; day++) {
